@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'settings_screen.dart';
+import 'interactive_weather_map_screen.dart';
+import 'weather_display_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -11,69 +14,54 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // List of available cities and selection
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to city selection screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CitySelectionScreen()),
-                );
-              },
-              child: Text('Select City'),
-            ),
-            SizedBox(height: 20), // Add spacing between buttons
-            // Navigation to other screens
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to other screens
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => OtherScreen()),
-                );
-              },
-              child: Text('Navigate to Other Screen'),
-            ),
+            // You can keep other UI elements if needed
           ],
         ),
       ),
-    );
-  }
-}
-
-class CitySelectionScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('City Selection'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Implement city selection logic here
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class OtherScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Other Screen'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Implement content for other screen here
-          ],
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 50.0, // Adjust the height as needed
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                onPressed: () {
+                  // Navigate to InteractiveWeatherMapScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InteractiveWeatherMapScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.map),
+              ),
+              IconButton(
+                onPressed: () {
+                  // Navigate to WeatherDisplayScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WeatherDisplayScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.cloud),
+              ),
+              IconButton(
+                onPressed: () {
+                  // Navigate to SettingsScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingsScreen(),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.settings),
+              ),
+            ],
+          ),
         ),
       ),
     );
