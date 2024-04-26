@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_2/placeholder.dart';
 
 // Importing other dart files
 import 'settings_screen.dart';

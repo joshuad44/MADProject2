@@ -6,14 +6,14 @@ import 'settings_screen.dart';
 import 'interactive_weather_map_screen.dart';
 import 'weather_display_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeDisplayScreen extends StatefulWidget {
   @override
-  _HomeScreen createState() => _HomeScreen();
+  _HomeDisplaScreen createState() => _HomeDisplaScreen();
 }
 
-class _HomeScreen  extends State {
+class _HomeDisplaScreen  extends State {
   // Define a list of cities for which you want to display weather information
-  List<String> cities = ['Atlanta', 'New York', 'London', 'Tokyo'];
+  List<String> cities = ['atlanta', 'new york', 'london', 'tokyo'];
   WeatherFactory ws = new WeatherFactory(OPENWEATHER_API_KEY);
   List<Map<String, dynamic>> _data = [];
   bool _isLoading = true; 
@@ -47,6 +47,12 @@ class _HomeScreen  extends State {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Home'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.popAndPushNamed(context, '/home_screen');
+            },
+          ),
         ),
         body: _isLoading
             ? contentNotDownloaded()
@@ -118,92 +124,41 @@ class _HomeScreen  extends State {
     );
   }
 
-  IconData mapWeatherConditionToIcon(Weather weather) {
-    switch (weather.weatherIcon) {
-      case '11d':
-        return WeatherIcons.day_thunderstorm;
-      case '01d':
-        return WeatherIcons.day_sunny;
-      case '01n':
-        return WeatherIcons.night_clear;
-      case '02d':
-        return WeatherIcons.day_cloudy;
-      case '02n':
-        return WeatherIcons.night_cloudy;
-      case '03d':
-        return WeatherIcons.cloud;
-      case '03n':
-        return WeatherIcons.cloud;
-      case '04d':
-        return WeatherIcons.cloudy;
-      case '04n':
-        return WeatherIcons.cloudy;
-      case '09d':
-        return WeatherIcons.showers;
-      case '09n':
-        return WeatherIcons.showers;
-      case '10d':
-        return WeatherIcons.day_rain;
-      case '10n':
-        return WeatherIcons.night_rain;
-      case '11d':
-        return WeatherIcons.thunderstorm;
-      case '11n':
-        return WeatherIcons.thunderstorm;
-      case '13d':
-        return WeatherIcons.snow;
-      case '13n':
-        return WeatherIcons.snow;
-      case '50d':
-        return WeatherIcons.fog;
-      case '50n':
-        return WeatherIcons.fog;
-      default:
-        return WeatherIcons.na;
-    }
-  }
-
   Widget contentFinishedDownload(Map<String, dynamic> data) {
     Weather weather = data['weather'];
     String city = data['city'];
     // Retrieve weather information
     String weatherCondition = weather.weatherMain ?? 'Unknown';
+    String weatherIcon = weather.weatherIcon ?? 'na';
     double temperature = weather.temperature?.celsius ?? 0.0;
 
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Padding(
         padding: EdgeInsets.all(20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                Text(
-                  'City: $city',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Weather: $weatherCondition',
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Temperature: ${temperature.toStringAsFixed(1)}°C',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ],
+            Text(
+              'City: $city',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            Row(
-              children: [
-                Icon(
-                  size: 75,
-                  mapWeatherConditionToIcon(weather)
-                ), 
-                SizedBox(width: 20,) 
-              ],
+            SizedBox(height: 10),
+            Text(
+              'Weather: $weatherCondition',
+              style: TextStyle(fontSize: 18),
             ),
+            SizedBox(height: 10),
+            Text(
+              'Temperature: ${temperature.toStringAsFixed(1)}°C',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Hourly Forecast:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            // Add hourly forecast widgets here if needed
           ],
         ),
       ),
